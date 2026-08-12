@@ -2,15 +2,18 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background: #e8f5e9;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+   background-image: url("/letone-bottle-7117637.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .container {
-  background: white;
+   background-image: url("/letone-bottle-7117637.jpg");
   padding: 30px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -87,9 +90,9 @@ button:hover {
 
     background: linear-gradient(
         90deg,
-        #bdefff 0%,
+        #815007 0%,
         #ffffff 45%,
-        #8ddcff 100%
+        #dd942e 100%
     );
 
     border: 2px solid rgba(0, 120, 180, 0.35);
@@ -111,7 +114,7 @@ button:hover {
     top: -15px;
     left: 6px;
 
-    background: #a9e8ff;
+    background: #f3ecce;
 
     border: 2px solid rgba(0, 120, 180, 0.35);
     border-bottom: none;
