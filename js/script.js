@@ -497,6 +497,7 @@ const prices = {
     "hawaje": 18000,
     "karaiby": 15000,
     "bahamy": 15000,
+    "kamizelka taktyczna": 999999000000000,
 
     "dubaj": 10000,
     "abu dhabi": 10044,
