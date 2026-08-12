@@ -1,54 +1,44 @@
-document.getElementById("calcBtn").addEventListener("click", calculate);
+document.getElementById("calcBtn").addEventListener("click", () => {
+    const dream = document.getElementById("dreamInput").value.trim();
 
-async function calculate() {
-  const dream = document.getElementById("dreamInput").value;
-  const resultDiv = document.getElementById("result");
-
-  if (!dream) {
-    resultDiv.innerHTML = "Wpisz marzenie, mordko!";
-    return;
-  }
-
-  resultDiv.innerHTML = "Kaucjusz liczy...";
-
-  const apiKey = "YOUR_SERPAPI_KEY";
-
-  const url = `https://serpapi.com/search.json?engine=google_shopping&q=${encodeURIComponent(dream)}&api_key=${apiKey}`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (!data.shopping_results || data.shopping_results.length === 0) {
-      resultDiv.innerHTML = "Kaucjusz nie znalazł ceny dla tego marzenia.";
-      return;
+    if (!dream) {
+        showResult("Wpisz marzenie!");
+        return;
     }
 
-    const item = data.shopping_results[0];
+    // MOCK — sztuczne ceny dla przykładowych marzeń
+    const mockPrices = {
+        "audi tt": 120000,
+        "dom": 600000,
+        "laptop": 3500,
+        "iphone 15": 4500,
+        "telewizor samsung": 2800,
+        "rower": 1500
+    };
 
-    // różne możliwe pola ceny
-    const price =
-      item.extracted_price ||
-      parseFloat(item.price?.replace(",", ".") || 0) ||
-      item.product_price ||
-      item.unit_price ||
-      null;
+    // Jeśli marzenie jest w mocku → używamy ceny
+    let price = mockPrices[dream.toLowerCase()];
 
+    // Jeśli nie ma → generujemy losową cenę (żeby zawsze działało)
     if (!price) {
-      resultDiv.innerHTML = "Kaucjusz nie znalazł ceny (brak danych).";
-      return;
+        price = Math.floor(Math.random() * 5000) + 500;
     }
 
-    const bottleValue = 0.5; // 50 groszy za butelkę
-    const bottles = Math.round(price / bottleValue);
+    const depositValue = 0.5;
+    const bottlesNeeded = Math.ceil(price / depositValue);
 
-    resultDiv.innerHTML = `
-      <strong>Kaucjusz mówi:</strong><br><br>
-      Marzenie: ${dream}<br>
-      Cena: ${price} zł<br><br>
-      To daje około <strong>${bottles} butelek</strong>.
-    `;
-  } catch (error) {
-    resultDiv.innerHTML = "Ups! Coś poszło nie tak.";
-  }
+    showResult(
+        `Marzenie: <b>${dream}</b><br>
+         Cena: <b>${price} zł</b><br>
+         Kaucja: <b>${depositValue} zł</b><br><br>
+         Potrzebujesz <b>${bottlesNeeded}</b> butelek!`
+    );
+});
+
+function showResult(text) {
+    const box = document.getElementById("resultBox");
+    const txt = document.getElementById("resultText");
+
+    txt.innerHTML = text;
+    box.classList.remove("hidden");
 }
