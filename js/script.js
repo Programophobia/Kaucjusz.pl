@@ -36,9 +36,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
 });
 
 function showResult(text) {
-    const box = document.getElementById("resultBox");
-    const txt = document.getElementById("resultText");
+    const box = document.getElementById("result");
 
-    txt.innerHTML = text;
-    box.classList.remove("hidden");
+    box.innerHTML = text;
 }
