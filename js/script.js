@@ -499,8 +499,8 @@ const prices = {
     "bahamy": 15000,
 
     "dubaj": 10000,
-    "abu dhabi": 10000,
-    "japonia": 12000,
+    "abu dhabi": 10044,
+    "japonia": 12099,
     "tokio": 12000,
     "usa": 15000,
     "nowy jork": 10000,
@@ -510,7 +510,7 @@ const prices = {
 
     "londyn": 6099,
     "paryż": 5000,
-    "paryz": 5000,
+    "paryz": 5070,
     "rzym": 5000,
     "włochy": 7070,
     "wlochy": 7990,
