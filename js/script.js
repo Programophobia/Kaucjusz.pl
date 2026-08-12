@@ -507,7 +507,7 @@ const prices = {
     "los angeles": 12000,
     "miami": 12000,
     "kalifornia": 15000,
-
+"boski krokiet": 40,
     "londyn": 6099,
     "paryż": 5000,
     "paryz": 5070,
