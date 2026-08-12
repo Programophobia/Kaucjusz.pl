@@ -24,8 +24,20 @@ async function calculate() {
       return;
     }
 
-    const priceText = data.shopping_results[0].price;
-    const price = parseFloat(priceText.replace(",", "."));
+    const item = data.shopping_results[0];
+
+    // różne możliwe pola ceny
+    const price =
+      item.extracted_price ||
+      parseFloat(item.price?.replace(",", ".") || 0) ||
+      item.product_price ||
+      item.unit_price ||
+      null;
+
+    if (!price) {
+      resultDiv.innerHTML = "Kaucjusz nie znalazł ceny (brak danych).";
+      return;
+    }
 
     const bottleValue = 0.5; // 50 groszy za butelkę
     const bottles = Math.round(price / bottleValue);
