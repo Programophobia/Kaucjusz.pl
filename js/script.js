@@ -846,13 +846,19 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "100 milionów": 100000000
 };
 
-    // Jeśli marzenie jest w mocku → używamy ceny
-    let price = mockPrices[dream.toLowerCase()];
+   const dreamLower = dream.toLowerCase();
 
-    // Jeśli nie ma → generujemy losową cenę (żeby zawsze działało)
-    if (!price) {
-        price = Math.floor(Math.random() * 5000) + 500;
-    }
+const matchingKeys = Object.keys(mockPrices)
+    .filter(key => dreamLower.includes(key.toLowerCase()))
+    .sort((a, b) => b.length - a.length);
+
+let price;
+
+if (matchingKeys.length > 0) {
+    price = mockPrices[matchingKeys[0]];
+} else {
+    price = Math.floor(Math.random() * 5000) + 500;
+}
 
     const depositValue = 0.5;
     const bottlesNeeded = Math.ceil(price / depositValue);
