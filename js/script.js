@@ -816,6 +816,8 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "dom nad morzem": 2000000,
     "dom w gorach": 1500000,
     "dom w górach": 1500000,
+    "anna powaska": "nie stać Cię, ale możesz wpisać inną 😎",
+    "anna": "nie stać Cię, ale możesz wpisać inną 😎",
 
     // =========================
     // 💸 DUŻE KWOTY
@@ -856,15 +858,67 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     const bottlesNeeded = Math.ceil(price / depositValue);
 
     showResult(
-        `Marzenie: <b>${dream}</b><br>
-         Cena: <b>${price} zł</b><br>
-         Kaucja: <b>${depositValue} zł</b><br><br>
-         Potrzebujesz <b>${bottlesNeeded}</b> butelek!`
-    );
+    `Marzenie: <b>${dream}</b><br>
+     Cena: <b>${price} zł</b><br>
+     Kaucja: <b>${depositValue} zł</b><br><br>
+     Potrzebujesz <b>${bottlesNeeded}</b> butelek!`,
+    bottlesNeeded
+);
 });
 
-function showResult(text) {
+function showResult(text, bottles = 0) {
     const box = document.getElementById("result");
 
-    box.innerHTML = text;
+    box.innerHTML = `
+        <div class="result-text">
+            ${text}
+        </div>
+
+        <div id="bottleAnimation" class="bottle-animation"></div>
+    `;
+
+    if (bottles > 0) {
+        animateBottles(bottles);
+    }
+}
+function animateBottles(numberOfBottles) {
+
+    const container = document.getElementById("bottleAnimation");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    // Nie tworzymy np. 2798 prawdziwych elementów,
+    // bo przeglądarka by tego nie lubiła 😭
+
+    const visibleBottles = Math.min(numberOfBottles, 60);
+
+    for (let i = 0; i < visibleBottles; i++) {
+
+        const bottle = document.createElement("div");
+
+        bottle.classList.add("bottle");
+
+        // losowa pozycja
+        bottle.style.left =
+            Math.random() * 92 + "%";
+
+        // różna wysokość
+        bottle.style.bottom =
+            10 + Math.random() * 35 + "px";
+
+        // różny rozmiar
+        const scale =
+            0.7 + Math.random() * 0.5;
+
+        bottle.style.transform =
+            `scale(${scale})`;
+
+        // losowe opóźnienie
+        bottle.style.animationDelay =
+            `${i * 0.04}s`;
+
+        container.appendChild(bottle);
+    }
 }
