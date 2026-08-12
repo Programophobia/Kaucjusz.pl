@@ -1,13 +1,15 @@
-document.getElementById("calcBtn").addEventListener("click", () => {
-    const dream = document.getElementById("dreamInput").value.trim();
+// =====================================================
+// KAUCJUSZ.PL
+// GŁÓWNY JAVASCRIPT
+// =====================================================
 
-    if (!dream) {
-        showResult("Wpisz marzenie!");
-        return;
-    }
 
-    // MOCK — sztuczne ceny dla przykładowych marzeń
-   const mockPrices = {
+// =====================================================
+// BAZA CEN
+// =====================================================
+
+const prices = {
+
     // =========================
     // 🚗 SAMOCHODY
     // =========================
@@ -54,6 +56,8 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "bmw m4": 500000,
     "bmw m5": 650000,
     "bmw m8": 800000,
+    "bmw gs": 90000,
+    "bmw s1000rr": 120000,
 
     "mercedes": 220000,
     "mercedes a": 150000,
@@ -180,6 +184,18 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "tesla model x": 500000,
     "tesla cybertruck": 350000,
 
+    "luksusowy samochód": 1000000,
+    "luksusowy samochod": 1000000,
+    "supercar": 1000000,
+    "supersamochód": 1000000,
+    "supersamochod": 1000000,
+    "hypercar": 5000000,
+    "hipersamochód": 5000000,
+    "hipersamochod": 5000000,
+    "kolekcja samochodów": 3000000,
+    "kolekcja samochodow": 3000000,
+
+
     // =========================
     // 🏍️ MOTOCYKLE
     // =========================
@@ -213,25 +229,23 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "harley": 100000,
     "harley davidson": 100000,
 
-    "bmw gs": 90000,
-    "bmw s1000rr": 120000,
 
     // =========================
     // 🏠 NIERUCHOMOŚCI
     // =========================
 
     "dom": 800000,
-    "maly dom": 500000,
     "mały dom": 500000,
-    "duzy dom": 1200000,
+    "maly dom": 500000,
     "duży dom": 1200000,
+    "duzy dom": 1200000,
     "nowy dom": 1000000,
     "dom jednorodzinny": 900000,
     "dom z basenem": 1500000,
     "willa": 2500000,
     "rezydencja": 5000000,
-    "posiadlosc": 3000000,
     "posiadłość": 3000000,
+    "posiadlosc": 3000000,
     "domek": 500000,
     "domek letniskowy": 350000,
 
@@ -242,17 +256,28 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "loft": 800000,
     "studio": 350000,
 
-    "dzialka": 250000,
     "działka": 250000,
+    "dzialka": 250000,
+    "działka budowlana": 300000,
     "dzialka budowlana": 300000,
     "działka rekreacyjna": 150000,
     "las": 300000,
     "pole": 250000,
     "gospodarstwo": 1500000,
 
-    "garaz": 80000,
     "garaż": 80000,
+    "garaz": 80000,
+    "garaż podziemny": 100000,
     "garaz podziemny": 100000,
+
+    "luksusowy dom": 3000000,
+    "dom marzeń": 1500000,
+    "dom marzen": 1500000,
+    "willa nad morzem": 3000000,
+    "dom nad morzem": 2000000,
+    "dom w górach": 1500000,
+    "dom w gorach": 1500000,
+
 
     // =========================
     // 📱 TELEFONY
@@ -291,6 +316,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "pixel 9": 3500,
     "pixel 10": 4500,
 
+
     // =========================
     // 💻 KOMPUTERY
     // =========================
@@ -300,6 +326,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "dobry laptop": 5000,
     "laptop gamingowy": 8000,
     "gaming laptop": 8000,
+
     "macbook": 7000,
     "macbook air": 6000,
     "macbook pro": 12000,
@@ -321,6 +348,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "monitor gamingowy": 3000,
     "monitor 4k": 3000,
     "monitor ultrawide": 5000,
+
     "telewizor": 4000,
     "tv": 4000,
     "telewizor 4k": 4000,
@@ -328,6 +356,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "telewizor samsung": 4500,
     "telewizor lg": 5000,
     "telewizor sony": 6000,
+
 
     // =========================
     // 🎮 KONSOLE
@@ -338,9 +367,11 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "ps5": 2500,
     "ps5 pro": 3500,
     "ps4": 1500,
+
     "xbox": 2500,
     "xbox series x": 2500,
     "xbox series s": 1500,
+
     "nintendo switch": 1800,
     "switch 2": 2500,
     "steam deck": 2500,
@@ -348,8 +379,10 @@ document.getElementById("calcBtn").addEventListener("click", () => {
 
     "vr": 3000,
     "gogle vr": 3000,
+    "gogle": 3000,
     "meta quest": 2500,
     "oculus": 2500,
+
 
     // =========================
     // 📷 FOTO / VIDEO
@@ -372,33 +405,37 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "kamera": 5000,
     "gopro": 2000,
 
+
     // =========================
     // 🎧 AUDIO
     // =========================
 
-    "sluchawki": 1500,
     "słuchawki": 1500,
+    "sluchawki": 1500,
     "airpods": 1000,
     "airpods pro": 1200,
+    "sony słuchawki": 1500,
     "sony sluchawki": 1500,
     "bose": 1500,
-    "glosniki": 2000,
     "głośniki": 2000,
+    "glosniki": 2000,
     "soundbar": 2500,
     "kino domowe": 8000,
+
 
     // =========================
     // 🚲 SPORT
     // =========================
 
     "rower": 4000,
+    "rower górski": 5000,
     "rower gorski": 5000,
     "rower szosowy": 8000,
     "rower gravel": 7000,
     "rower elektryczny": 12000,
     "e-bike": 12000,
-    "kolarzowka": 8000,
     "kolarzówka": 8000,
+    "kolarzowka": 8000,
 
     "hulajnoga": 3000,
     "hulajnoga elektryczna": 4000,
@@ -410,16 +447,19 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "narty": 2500,
     "snowboard": 2500,
     "deska snowboardowa": 2000,
-    "sprzet narciarski": 4000,
     "sprzęt narciarski": 4000,
+    "sprzet narciarski": 4000,
 
-    "bieznia": 5000,
     "bieżnia": 5000,
+    "bieznia": 5000,
     "orbitrek": 3000,
-    "lawka treningowa": 1500,
     "ławka treningowa": 1500,
-    "silownia": 15000,
+    "lawka treningowa": 1500,
+    "hantle": 1000,
+    "sztanga": 1000,
     "siłownia": 15000,
+    "silownia": 15000,
+
 
     // =========================
     // 🎸 MUZYKA
@@ -439,14 +479,15 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "syntezator": 5000,
     "studio muzyczne": 30000,
 
+
     // =========================
     // ✈️ PODRÓŻE
     // =========================
 
     "wakacje": 10000,
     "wycieczka": 8000,
-    "podroz": 8000,
     "podróż": 8000,
+    "podroz": 8000,
     "all inclusive": 10000,
     "hotel": 5000,
 
@@ -468,29 +509,40 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "kalifornia": 15000,
 
     "londyn": 6000,
-    "paryz": 5000,
     "paryż": 5000,
+    "paryz": 5000,
     "rzym": 5000,
-    "wlochy": 7000,
     "włochy": 7000,
+    "wlochy": 7000,
     "hiszpania": 7000,
     "grecja": 7000,
     "norwegia": 8000,
     "islandia": 10000,
     "szwajcaria": 10000,
 
+    "miesiąc wakacji": 20000,
+    "miesiac wakacji": 20000,
+    "rok podróży": 100000,
+    "rok podrozy": 100000,
+    "podróż dookoła świata": 100000,
+    "podroz dookola swiata": 100000,
+    "dookoła świata": 100000,
+    "dookola swiata": 100000,
+
+
     // =========================
     // 🛥️ ŁODZIE / JACHTY
     // =========================
 
-    "lodz": 300000,
     "łódź": 300000,
-    "motorowka": 250000,
+    "lodz": 300000,
     "motorówka": 250000,
+    "motorowka": 250000,
     "jacht": 1000000,
     "jacht luksusowy": 5000000,
     "katamaran": 1000000,
     "skuter wodny": 80000,
+
 
     // =========================
     // ✈️ LOTNICTWO
@@ -501,8 +553,9 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "jet": 20000000,
     "odrzutowiec": 20000000,
     "helikopter": 5000000,
-    "smiglowiec": 5000000,
     "śmigłowiec": 5000000,
+    "smiglowiec": 5000000,
+
 
     // =========================
     // 💎 LUKSUS
@@ -519,28 +572,29 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "audemars piguet": 200000,
     "richard mille": 1500000,
 
-    "bizuteria": 10000,
     "biżuteria": 10000,
-    "pierscionek": 8000,
+    "bizuteria": 10000,
     "pierścionek": 8000,
-    "pierscionek zareczynowy": 15000,
+    "pierscionek": 8000,
     "pierścionek zaręczynowy": 15000,
+    "pierscionek zareczynowy": 15000,
     "naszyjnik": 10000,
-    "lancuch": 5000,
     "łańcuch": 5000,
+    "lancuch": 5000,
     "bransoletka": 5000,
     "diament": 50000,
+
 
     // =========================
     // 👕 MODA
     // =========================
 
     "garnitur": 4000,
-    "garnitur szyty na miare": 8000,
     "garnitur szyty na miarę": 8000,
+    "garnitur szyty na miare": 8000,
     "sukienka": 2000,
-    "suknia slubna": 8000,
     "suknia ślubna": 8000,
+    "suknia slubna": 8000,
     "buty": 800,
     "sneakersy": 1000,
     "nike": 800,
@@ -552,9 +606,9 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "versace": 4000,
     "chanel": 6000,
     "hermes": 10000,
-    "louis vuitton torba": 8000,
     "torebka": 3000,
     "plecak": 1000,
+
 
     // =========================
     // 🛋️ DOM
@@ -563,23 +617,23 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "meble": 10000,
     "sofa": 5000,
     "kanapa": 5000,
-    "naroznik": 6000,
     "narożnik": 6000,
-    "lozko": 4000,
+    "naroznik": 6000,
     "łóżko": 4000,
+    "lozko": 4000,
     "materac": 2000,
     "szafa": 3000,
-    "stol": 2500,
     "stół": 2500,
-    "krzesla": 1500,
+    "stol": 2500,
     "krzesła": 1500,
+    "krzesla": 1500,
     "biurko": 2000,
     "fotel": 2000,
 
     "kuchnia": 30000,
     "kuchnia na wymiar": 40000,
-    "lazienka": 20000,
     "łazienka": 20000,
+    "lazienka": 20000,
     "remont": 80000,
     "generalny remont": 150000,
 
@@ -587,31 +641,33 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "basen ogrodowy": 30000,
     "jacuzzi": 20000,
     "sauna": 30000,
-    "ogrod": 30000,
     "ogród": 30000,
+    "ogrod": 30000,
     "altana": 15000,
     "grill": 3000,
     "kosiarka": 3000,
+
 
     // =========================
     // 🍳 AGD
     // =========================
 
-    "lodowka": 4000,
     "lodówka": 4000,
-    "lodowka side by side": 8000,
+    "lodowka": 4000,
     "lodówka side by side": 8000,
+    "lodowka side by side": 8000,
     "pralka": 3000,
     "suszarka": 3000,
     "zmywarka": 3000,
     "piekarnik": 3000,
-    "plyta": 2500,
     "płyta": 2500,
+    "plyta": 2500,
     "ekspres do kawy": 4000,
     "odkurzacz": 1500,
     "dyson": 2500,
-    "robot sprzatajacy": 2500,
     "robot sprzątający": 2500,
+    "robot sprzatajacy": 2500,
+
 
     // =========================
     // 🐕 ZWIERZĘTA
@@ -628,6 +684,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "akwarium": 3000,
     "rybki": 500,
 
+
     // =========================
     // 🎓 EDUKACJA
     // =========================
@@ -636,12 +693,13 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "studia prywatne": 50000,
     "kurs": 3000,
     "kurs programowania": 8000,
-    "kurs jezykowy": 3000,
     "kurs językowy": 3000,
+    "kurs jezykowy": 3000,
     "szkolenie": 5000,
     "certyfikat": 2000,
     "prawo jazdy": 4000,
     "kurs prawa jazdy": 4000,
+
 
     // =========================
     // 💼 BIZNES
@@ -652,26 +710,44 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "startup": 500000,
     "restauracja": 500000,
     "kawiarnia": 300000,
-    "sklep": 300000,
     "sklep internetowy": 50000,
+    "sklep": 300000,
     "salon fryzjerski": 150000,
     "bar": 300000,
     "hotel": 5000000,
-    "siłownia": 500000,
     "franczyza": 300000,
 
+
     // =========================
-    // 💰 PIENIĄDZE / INWESTYCJE
+    // 💰 PIENIĄDZE
     // =========================
 
+    "100 tysięcy": 100000,
+    "100 tysiecy": 100000,
+    "200 tysięcy": 200000,
+    "200 tysiecy": 200000,
+    "300 tysięcy": 300000,
+    "300 tysiecy": 300000,
+    "500 tysięcy": 500000,
+    "500 tysiecy": 500000,
+
     "milion": 1000000,
-    "milion zlotych": 1000000,
     "milion złotych": 1000000,
+    "milion zlotych": 1000000,
+    "milion zł": 1000000,
+    "milion zl": 1000000,
+
     "2 miliony": 2000000,
-    "5 milionow": 5000000,
+    "3 miliony": 3000000,
     "5 milionów": 5000000,
-    "10 milionow": 10000000,
+    "5 milionow": 5000000,
     "10 milionów": 10000000,
+    "10 milionow": 10000000,
+    "50 milionów": 50000000,
+    "50 milionow": 50000000,
+    "100 milionów": 100000000,
+    "100 milionow": 100000000,
+
 
     // =========================
     // 🎉 ROZRYWKA
@@ -686,31 +762,15 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "mecz": 500,
     "bilet na mecz": 500,
 
-    // =========================
-    // 🏋️ FITNESS
-    // =========================
-
-    "silownia": 15000,
-    "siłownia": 15000,
-    "sprzet fitness": 10000,
-    "sprzęt fitness": 10000,
-    "hantle": 1000,
-    "sztanga": 1000,
-    "lawka": 1500,
-    "ławka": 1500,
-    "bieznia": 5000,
-    "bieżnia": 5000,
-    "rowerek treningowy": 3000,
-    "orbitrek": 3000,
 
     // =========================
     // 🧑‍🍳 KUCHNIA
     // =========================
 
-    "noze": 1000,
     "noże": 1000,
-    "zestaw nozy": 2000,
+    "noze": 1000,
     "zestaw noży": 2000,
+    "zestaw nozy": 2000,
     "patelnia": 500,
     "garnki": 1000,
     "robot kuchenny": 2500,
@@ -718,6 +778,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "air fryer": 800,
     "mikser": 800,
     "blender": 500,
+
 
     // =========================
     // 🎨 HOBBY
@@ -728,11 +789,12 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "lego star wars": 2000,
     "model": 500,
     "kolekcja": 10000,
-    "kolekcja zegarkow": 50000,
     "kolekcja zegarków": 50000,
+    "kolekcja zegarkow": 50000,
     "instrument": 3000,
-    "sprzet muzyczny": 10000,
     "sprzęt muzyczny": 10000,
+    "sprzet muzyczny": 10000,
+
 
     // =========================
     // 🏕️ OUTDOOR
@@ -744,11 +806,11 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "przyczepa kempingowa": 100000,
     "van": 200000,
     "vanlife": 250000,
-    "grill": 3000,
     "ognisko": 1000,
     "plecak turystyczny": 1000,
-    "sprzet campingowy": 5000,
     "sprzęt campingowy": 5000,
+    "sprzet campingowy": 5000,
+
 
     // =========================
     // 🚀 EKSTREMALNE MARZENIA
@@ -760,120 +822,298 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     "prywatna wyspa": 30000000,
     "zamek": 5000000,
     "zamek w polsce": 10000000,
-    "zamek za granica": 20000000,
     "zamek za granicą": 20000000,
+    "zamek za granica": 20000000,
 
-    "wlasny stadion": 500000000,
     "własny stadion": 500000000,
+    "wlasny stadion": 500000000,
     "stadion": 500000000,
-    "wieżowiec": 500000000,
     "wieżowiec": 500000000,
     "drapacz chmur": 1000000000,
 
+
     // =========================
-    // ❤️ DOŚWIADCZENIA / MARZENIA
+    // ❤️ ŚLUB / DOŚWIADCZENIA
     // =========================
 
-    "miesiac wakacji": 20000,
-    "miesiąc wakacji": 20000,
-    "rok podrozy": 100000,
-    "rok podróży": 100000,
-    "podroz dookola swiata": 100000,
-    "podróż dookoła świata": 100000,
-    "dookola swiata": 100000,
-    "dookoła świata": 100000,
-
-    "slub": 60000,
     "ślub": 60000,
+    "slub": 60000,
     "wesele": 60000,
-    "luksusowy slub": 150000,
     "luksusowy ślub": 150000,
+    "luksusowy slub": 150000,
 
-    "miesiac miodowy": 20000,
     "miesiąc miodowy": 20000,
+    "miesiac miodowy": 20000,
+
 
     // =========================
-    // 🏆 LUKSUSOWE MARZENIA
+    // 😎 ŻART
     // =========================
 
-    "luksusowy samochod": 1000000,
-    "luksusowy samochód": 1000000,
-    "supercar": 1000000,
-    "supersamochod": 1000000,
-    "supersamochód": 1000000,
-    "hypercar": 5000000,
-    "hipersamochod": 5000000,
-    "hipersamochód": 5000000,
-    "kolekcja samochodow": 3000000,
-    "kolekcja samochodów": 3000000,
-    "garaz pelny samochodow": 3000000,
-    "garaż pełny samochodów": 3000000,
-
-    "luksusowy dom": 3000000,
-    "dom marzen": 1500000,
-    "dom marzeń": 1500000,
-    "willa nad morzem": 3000000,
-    "dom nad morzem": 2000000,
-    "dom w gorach": 1500000,
-    "dom w górach": 1500000,
     "anna powaska": "nie stać Cię, ale możesz wpisać inną 😎",
-    "anna": "nie stać Cię, ale możesz wpisać inną 😎",
-
-    // =========================
-    // 💸 DUŻE KWOTY
-    // =========================
-
-    "100 tysiecy": 100000,
-    "100 tysięcy": 100000,
-    "200 tysiecy": 200000,
-    "200 tysięcy": 200000,
-    "300 tysiecy": 300000,
-    "300 tysięcy": 300000,
-    "500 tysiecy": 500000,
-    "500 tysięcy": 500000,
-    "milion": 1000000,
-    "milion zl": 1000000,
-    "milion zł": 1000000,
-    "2 miliony": 2000000,
-    "3 miliony": 3000000,
-    "5 milionow": 5000000,
-    "5 milionów": 5000000,
-    "10 milionow": 10000000,
-    "10 milionów": 10000000,
-    "50 milionow": 50000000,
-    "50 milionów": 50000000,
-    "100 milionow": 100000000,
-    "100 milionów": 100000000
+    "anna": "nie stać Cię, ale możesz wpisać inną 😎"
 };
 
-   const dreamLower = dream.toLowerCase();
 
-const matchingKeys = Object.keys(mockPrices)
-    .filter(key => dreamLower.includes(key.toLowerCase()))
-    .sort((a, b) => b.length - a.length);
+// =====================================================
+// FUNKCJA NORMALIZUJĄCA TEKST
+// =====================================================
 
-let price;
+function normalizeText(text) {
 
-if (matchingKeys.length > 0) {
-    price = mockPrices[matchingKeys[0]];
-} else {
-    price = Math.floor(Math.random() * 5000) + 500;
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/[!?.,;:()[\]{}"'`]/g, "");
+
 }
 
-    const depositValue = 0.5;
-    const bottlesNeeded = Math.ceil(price / depositValue);
 
-    showResult(
-    `Marzenie: <b>${dream}</b><br>
-     Cena: <b>${price} zł</b><br>
-     Kaucja: <b>${depositValue} zł</b><br><br>
-     Potrzebujesz <b>${bottlesNeeded}</b> butelek!`,
-    bottlesNeeded
-);
-});
+// =====================================================
+// SZUKANIE CENY
+// =====================================================
+
+function findPrice(dream) {
+
+    const text = normalizeText(dream);
+
+    if (!text) {
+        return null;
+    }
+
+    // -------------------------------------------------
+    // 1. Najpierw sprawdzamy idealne dopasowanie
+    // -------------------------------------------------
+
+    if (prices[text] !== undefined) {
+
+        return {
+            key: text,
+            price: prices[text]
+        };
+
+    }
+
+
+    // -------------------------------------------------
+    // 2. Szukamy frazy wewnątrz zdania
+    //
+    // np.
+    // "chcę audi q5"
+    // znajdzie "audi q5"
+    // -------------------------------------------------
+
+    const matches = Object.keys(prices)
+        .filter(key => text.includes(key))
+        .sort((a, b) => b.length - a.length);
+
+
+    if (matches.length > 0) {
+
+        const bestMatch = matches[0];
+
+        return {
+            key: bestMatch,
+            price: prices[bestMatch]
+        };
+
+    }
+
+
+    // -------------------------------------------------
+    // 3. Jeśli nic nie znaleziono
+    // -------------------------------------------------
+
+    return null;
+
+}
+
+
+// =====================================================
+// FORMATOWANIE CENY
+// =====================================================
+
+function formatPrice(price) {
+
+    if (typeof price !== "number") {
+        return price;
+    }
+
+    return price.toLocaleString("pl-PL");
+
+}
+
+
+// =====================================================
+// GŁÓWNY PRZYCISK
+// =====================================================
+
+const calcBtn = document.getElementById("calcBtn");
+
+if (calcBtn) {
+
+    calcBtn.addEventListener("click", function () {
+
+        const dreamInput = document.getElementById("dreamInput");
+
+        if (!dreamInput) {
+            return;
+        }
+
+        const dream = dreamInput.value.trim();
+
+
+        // ---------------------------------------------
+        // Puste pole
+        // ---------------------------------------------
+
+        if (!dream) {
+
+            showResult(
+                "Najpierw wpisz swoje marzenie 😎",
+                0
+            );
+
+            return;
+        }
+
+
+        // ---------------------------------------------
+        // Szukanie ceny
+        // ---------------------------------------------
+
+        const result = findPrice(dream);
+
+
+        // ---------------------------------------------
+        // Nie znaleziono
+        // ---------------------------------------------
+
+        if (!result) {
+
+            showResult(
+                `
+                Nie znam jeszcze ceny tego marzenia 😅<br><br>
+                Spróbuj wpisać coś bardziej konkretnego,
+                np. <b>Audi Q5</b>, <b>iPhone 16 Pro</b>,
+                <b>dom</b> albo <b>Malediwy</b>.
+                `,
+                0
+            );
+
+            return;
+        }
+
+
+        // ---------------------------------------------
+        // Specjalny tekst zamiast ceny
+        // ---------------------------------------------
+
+        if (typeof result.price !== "number") {
+
+            showResult(
+                `
+                Marzenie: <b>${escapeHTML(dream)}</b><br><br>
+                ${result.price}
+                `,
+                0
+            );
+
+            return;
+        }
+
+
+        // ---------------------------------------------
+        // Obliczenie butelek
+        // ---------------------------------------------
+
+        const depositValue = 0.50;
+
+        const bottlesNeeded = Math.ceil(
+            result.price / depositValue
+        );
+
+
+        // ---------------------------------------------
+        // Wynik
+        // ---------------------------------------------
+
+        showResult(
+            `
+            Marzenie: <b>${escapeHTML(dream)}</b><br><br>
+
+            Szacowana cena:
+            <b>${formatPrice(result.price)} zł</b><br>
+
+            Kaucja za butelkę:
+            <b>${depositValue.toFixed(2).replace(".", ",")} zł</b><br><br>
+
+            Potrzebujesz:
+            <b>${formatPrice(bottlesNeeded)}</b>
+            butelek!
+            `,
+            bottlesNeeded
+        );
+
+    });
+
+}
+
+
+// =====================================================
+// ENTER W POLU TEKSTOWYM
+// =====================================================
+
+const dreamInput = document.getElementById("dreamInput");
+
+if (dreamInput) {
+
+    dreamInput.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            if (calcBtn) {
+                calcBtn.click();
+            }
+
+        }
+
+    });
+
+}
+
+
+// =====================================================
+// ZABEZPIECZENIE TEKSTU UŻYTKOWNIKA
+// =====================================================
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// POKAZYWANIE WYNIKU
+// =====================================================
 
 function showResult(text, bottles = 0) {
+
     const box = document.getElementById("result");
+
+    if (!box) {
+        return;
+    }
+
 
     box.innerHTML = `
         <div class="result-text">
@@ -883,48 +1123,94 @@ function showResult(text, bottles = 0) {
         <div id="bottleAnimation" class="bottle-animation"></div>
     `;
 
+
     if (bottles > 0) {
+
         animateBottles(bottles);
+
     }
+
 }
+
+
+// =====================================================
+// ANIMACJA BUTELEK
+// =====================================================
+
 function animateBottles(numberOfBottles) {
 
-    const container = document.getElementById("bottleAnimation");
+    const container =
+        document.getElementById("bottleAnimation");
 
-    if (!container) return;
+
+    if (!container) {
+        return;
+    }
+
 
     container.innerHTML = "";
 
-    // Nie tworzymy np. 2798 prawdziwych elementów,
-    // bo przeglądarka by tego nie lubiła 😭
 
-    const visibleBottles = Math.min(numberOfBottles, 60);
+    // -------------------------------------------------
+    // Nie tworzymy np. 2 000 000 elementów HTML 😭
+    // -------------------------------------------------
+
+    const visibleBottles =
+        Math.min(numberOfBottles, 60);
+
 
     for (let i = 0; i < visibleBottles; i++) {
 
-        const bottle = document.createElement("div");
+        const bottle =
+            document.createElement("div");
+
 
         bottle.classList.add("bottle");
 
-        // losowa pozycja
+
+        // Losowa pozycja pozioma
+
         bottle.style.left =
             Math.random() * 92 + "%";
 
-        // różna wysokość
+
+        // Losowa wysokość
+
         bottle.style.bottom =
             10 + Math.random() * 35 + "px";
 
-        // różny rozmiar
+
+        // Losowy rozmiar
+
         const scale =
             0.7 + Math.random() * 0.5;
 
-        bottle.style.transform =
-            `scale(${scale})`;
 
-        // losowe opóźnienie
+        bottle.dataset.scale = scale;
+
+
+        // Opóźnienie animacji
+
         bottle.style.animationDelay =
             `${i * 0.04}s`;
 
+
         container.appendChild(bottle);
+
     }
+
 }
+
+
+// =====================================================
+// INFORMACJA O DUŻEJ LICZBIE BUTELEK
+// =====================================================
+
+// Jeśli np. Audi kosztuje 180 000 zł:
+//
+// 180 000 / 0,50 = 360 000 butelek
+//
+// Na ekranie pokazujemy tylko maksymalnie 60,
+// ale wynik nadal pokazuje prawdziwą liczbę.
+//
+// =====================================================
