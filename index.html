@@ -12,13 +12,15 @@
     <h1>Kaucjusz</h1>
     <p class="subtitle">Ile butelek dzieli Cię od marzenia?</p>
 
-    <input id="dreamInput" placeholder="Wpisz marzenie, np. pierścionek z diamentem">
+    <input id="dreamInput" type="text" placeholder="Wpisz marzenie (np. audi tt, pierścionek z diamentem)">
     <button id="calcBtn">Przelicz</button>
 
-    <div id="result"></div>
+    <div id="resultBox" class="result hidden">
+      <h2>Wynik</h2>
+      <p id="resultText"></p>
+    </div>
   </div>
 
   <script src="app.js"></script>
 </body>
 </html>
-
